@@ -4,57 +4,21 @@ document.addEventListener('deviceready', function() {
     $( document ).ready( function() {
       console.log( 'DOM READY!' );
 
-      var bilder = [
-      	'das-paradies-fuer-wintersportler.jpg',
-      	'endlos-weite-schwuenge-ueber-perfekt-praeparierte-pisten-ziehen.jpg',
-      	'erlebnishotel-fendels-familienhit.jpg',
-      	'fruehlings-special-top-of-tyrol.jpg'
-      ];
+      var c = $('<canvas>',{width:$(window).width(),height:$(window).height()}).prependTo('body');
 
-      var aktuell = 0;
-      var showImage = function( i ) {
-      	aktuell += i;
-      	if ( aktuell < 0 ) aktuell = bilder.length - 1; // wieder ans ende
-      	if ( aktuell > bilder.length - 1 ) aktuell = 0; // wieder zum anfang
-      	$( '#bilder' ).css({'background-image':'url(tirolbilder/'+bilder[aktuell]+')'});
-      }
-
-      var showNext = function() {	showImage( 1 ); }
-      var showPrev = function() { showImage( -1 ); }
-      $( document ).on( 'click', '#next', showNext );
-      $( document ).on( 'click', '#prev', showPrev );
-      $( document ).ready( function() {
-      	showImage(0);
-      });
-
-      var downX = 0;
-      $( document ).on( 'touchstart', '#bilder', function( event ) {
-          downX = event.originalEvent.touches[0].clientX;
-      });
+      var ctx = c.get(0).getContext("2d");
+      ctx.fillRect(100,100,100,100)
       $( document ).on( 'touchmove', '#bilder', function( event ) {
-      	if ( downX == 0 ) return;
-      	var diffX = downX - event.changedTouches[0].clientX;
-      	if ( diffX < 0 ) $( '#bilder' ).css( { left: diffX });
-      	if ( diffX > 0 ) $( '#bilder' ).css( { right: -diffX });
-      });
-      $( document ).on( 'touchend', '#bilder', function( event) {
-      	var diffX = downX - event.changedTouches[0].clientX;
-      	if ( diffX < -100 ) { showImage(1); /*document.getElementById('swipe').play();*/ }
-      	if ( diffX > 100 ) { showImage(-1); /*document.getElementById('swipe').play(); */}
-      	downX = 0;
-      	$( '#bilder' ).css( { left: 0, right: 0 });
-      });
 
-      $( window ).on( "orientationchange", function( event ) {
-            var diffX = event.gamma;
-            if(diffX>10){
-                $( '#bilder' ).css( { left: diffX*5 });
-            }
-            if(diffX<-35){
-                 $( '#bilder' ).css( { right: -diffX*5 });
-            }
+      	var x =event.changedTouches[0].clientX;
+        var y =event.changedTouches[0].clientY;
+
+
 
       });
+
+
+
 
 
     });
